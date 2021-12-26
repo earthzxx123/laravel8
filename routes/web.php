@@ -61,7 +61,7 @@ Route::get("/gallery", function () {
 });
 
 Route::get("/ant", function () {
-    $ant = "https://cdn3.movieweb.com/i/article/Oi0Q2edcVVhs4p1UivwyyseezFkHsq/1107:50/Ant-Man-3-Talks-Michael-Douglas-Update.jpg";
+    $ant = "https://static1.moviewebimages.com/wordpress/wp-content/uploads/article/Oi0Q2edcVVhs4p1UivwyyseezFkHsq.jpg?q=50&fit=contain&w=1107";
 
     return view("test/ant", compact("ant"));
 });
@@ -107,6 +107,16 @@ Route::get("/student/component", function () {
     return view("student-component");
 });
 
-Route::get('/tables', function () {
-    return view('tables');
+//เดิมก่อนหน้าเป็น /tables แต่อาจารย์ให้เปลี่ยยนเป็น /table
+Route::get('/table', function () {
+    return view('table');
 });
+
+//สัปดาห์ที่ 4
+Route::get("/myprofile/create", [MyProfileController::class, "create"]);
+Route::get("/myprofile/{id}/edit", [ MyProfileController::class , "edit" ] );
+Route::get("/myprofile/{id}", [ MyProfileController::class , "show" ]);
+
+Route::get( "/newgallery" , [ MyProfileController::class , "gallery" ] );
+Route::get( "/newgallery/ant" , [ MyProfileController::class , "ant" ] );
+Route::get( "/newgallery/bird" , [ MyProfileController::class , "bird" ] );
