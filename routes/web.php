@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Covid19Controller;
 use App\Http\Controllers\MyProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -88,7 +89,7 @@ Route::get("/spider", function () {
 });
 
 
-// work 3
+// สัปดาห์ที่3
 
 // Route Template Inheritance
 Route::get("/teacher/inheritance", function () {
@@ -112,11 +113,16 @@ Route::get('/table', function () {
     return view('table');
 });
 
-//สัปดาห์ที่ 4
+//สัปดาห์ที่ 4 19/12/2564
 Route::get("/myprofile/create", [MyProfileController::class, "create"]);
-Route::get("/myprofile/{id}/edit", [ MyProfileController::class , "edit" ] );
-Route::get("/myprofile/{id}", [ MyProfileController::class , "show" ]);
+Route::get("/myprofile/{id}/edit", [MyProfileController::class, "edit"]);
+Route::get("/myprofile/{id}", [MyProfileController::class, "show"]);
 
-Route::get( "/newgallery" , [ MyProfileController::class , "gallery" ] );
-Route::get( "/newgallery/ant" , [ MyProfileController::class , "ant" ] );
-Route::get( "/newgallery/bird" , [ MyProfileController::class , "bird" ] );
+Route::get("/newgallery", [MyProfileController::class, "gallery"]);
+Route::get("/newgallery/ant", [MyProfileController::class, "ant"]);
+Route::get("/newgallery/bird", [MyProfileController::class, "bird"]);
+
+//สัปดาห์ที่5 26/12/2564
+Route::get("/coronavirus", [MyProfileController::class, "coronavirus"]);
+
+Route::get('/covid19', [Covid19Controller::class, "index"]);
