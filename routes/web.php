@@ -125,4 +125,15 @@ Route::get("/newgallery/bird", [MyProfileController::class, "bird"]);
 //สัปดาห์ที่5 26/12/2564
 Route::get("/coronavirus", [MyProfileController::class, "coronavirus"]);
 
+Route::get("/covid19/create", [Covid19Controller::class, "create"]);
+Route::get("/covid19/{id}/edit", [Covid19Controller::class, "edit"]); //edit
+
 Route::get('/covid19', [Covid19Controller::class, "index"]);
+
+//สัปดาห์ที่6 9/1/2565
+Route::get('/covid19/{id}', [Covid19Controller::class, 'show']);
+
+Route::post("/covid19", [Covid19Controller::class, "store"]);
+Route::patch("/covid19/{id}", [Covid19Controller::class, "update"]); //update
+
+Route::delete('/covid19/{id}', [Covid19Controller::class, 'destroy']); //delete

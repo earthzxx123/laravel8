@@ -14,13 +14,30 @@ class Covid19Controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // //SQL
-        // $sql = "select * from covid19s";
-        // //QUERY => U got an ARRAY
-        // $covid19s = DB::select($sql, []);
-        $covid19s = DB::table("covid19s") -> get();
+        // สัปดาห์ที่6
+        $perPage = 10;
+
+        $search = $request->get('search');
+        if (!empty($search)) {
+            //กรณีมีข้อมูลที่ต้องการ search จะมีการใช้คำสั่ง where และ orWhere
+            $covid19s = Covid19::where('country', 'LIKE', "%$search%")
+                ->orWhere('total', 'LIKE', "%$search%")
+                ->orWhere('active', 'LIKE', "%$search%")
+                ->orWhere('death', 'LIKE', "%$search%")
+                ->orWhere('recovered', 'LIKE', "%$search%")
+                ->orderBy('date', 'desc')->paginate($perPage);
+        } else {
+            //กรณีไม่มีข้อมูล search จะทำงานเหมือนเดิม
+            $covid19s = Covid19::orderBy('date', 'desc')->paginate($perPage);
+        }
+
+
+
+
+        // $covid19s = Covid19::orderBy('date', 'desc')->get();
+        // $covid19s = Covid19::orderBy('total', 'desc')->paginate($perPage);
         // //DISPLAY ON VIEW
         return view('covid19/index', compact('covid19s'));
     }
@@ -33,6 +50,7 @@ class Covid19Controller extends Controller
     public function create()
     {
         //
+        return view('covid19.create');
     }
 
     /**
@@ -43,7 +61,12 @@ class Covid19Controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //ดึงข้อมูลทั้งหมดของหน้าฟอร์มมาเก็บใน $requestData
+        $requestData = $request->all();
+        //บันทึกข้อมูล ใหม่ลงฐานข้อมูล
+        Covid19::create($requestData);
+        //เด้งไปหน้า /covid19
+        return redirect('covid19');
     }
 
     /**
@@ -54,7 +77,10 @@ class Covid19Controller extends Controller
      */
     public function show($id)
     {
-        //
+        //Query ข้อมูลขึ้นมา 1 ชิ้น ถ้าไม่เจอให้ขึ้น 404
+        $covid19 = Covid19::findOrFail($id);
+
+        return view('covid19.show', compact('covid19'));
     }
 
     /**
@@ -66,6 +92,9 @@ class Covid19Controller extends Controller
     public function edit($id)
     {
         //
+        $covid19 = Covid19::findOrFail($id);
+
+        return view('covid19.edit', compact('covid19'));
     }
 
     /**
@@ -77,7 +106,14 @@ class Covid19Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //ดึงข้อมูลทั้งหมดของหน้าฟอร์มมาเก็บใน $requestData
+        $requestData = $request->all();
+        //ดึงข้อมูลเก่าออกมาก่อน 
+        $covid19 = Covid19::findOrFail($id);
+        //อัพเดทข้อมูลใหม่
+        $covid19->update($requestData);
+        //เด้งไปหน้า /covid19
+        return redirect('covid19');
     }
 
     /**
@@ -88,6 +124,9 @@ class Covid19Controller extends Controller
      */
     public function destroy($id)
     {
-        //
+        //ลบข้อมูลตาม primary key id ที่ระบุ
+        Covid19::destroy($id);
+        //เด้งไปหน้า /covid19
+        return redirect('covid19');
     }
 }
