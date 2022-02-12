@@ -16,6 +16,12 @@ class CreateStaffTable extends Migration
         Schema::create('staffs', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+
+            $table->string("name")->nullable();
+            $table->integer("age")->nullable();
+            $table->float("salary",16,2)->nullable();
+            $table->string("phone")->nullable();
+            
         });
     }
 

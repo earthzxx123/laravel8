@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Staff extends Model
 {
     use HasFactory;
+
+    //ชื่อตารางในฐานข้อมูล
+    protected $table = "staffs";
+    //ชื่อคอลัมน์ในฐานข้อมูลที่อนุญาติให้แก้ไขข้อมูล
+    protected $fillable = ["name", "age", "slary", "phone"];
+    //Primary Key
+    protected $primaryKey = "id";
 }
