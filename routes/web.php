@@ -6,6 +6,10 @@ use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController; //สัปดาห์ที่ 7
 
+use App\Http\Controllers\OrderController; //สัปดาห์ที่ 11
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\OrderProductController;
+use App\Http\Controllers\ProductController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -141,3 +145,14 @@ Route::delete('/covid19/{id}', [Covid19Controller::class, 'destroy']); //delete
 
 // Route::resource('post', 'PostController');
 Route::resource('post', PostController::class);
+
+
+
+//สัปดาห์ที่11 13/2/2565
+Route::resource('product', ProductController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('order', OrderController::class);
+    Route::resource('payment', PaymentController::class);
+    Route::resource('order-product', OrderProductController::class);
+});
+

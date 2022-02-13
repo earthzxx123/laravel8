@@ -1,0 +1,21 @@
+{
+    "fields": [
+        {
+            "name": "total",
+            "type": "float"
+        },
+        {
+            "name": "user_id",
+            "type": "integer"
+        },
+        {
+            "name": "order_id",
+            "type": "integer"
+        },
+        {
+            "name": "slip",
+            "type": "file"
+        }
+    ]
+}
+
