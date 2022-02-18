@@ -95,15 +95,17 @@ Route::get("/spider", function () {
 });
 
 
-// สัปดาห์ที่3
+//สัปดาห์ที่3 12/12/2564
 
 // Route Template Inheritance
-Route::get("/teacher/inheritance", function () {
-    return view("teacher-inheritance");
-});
+Route::middleware(['auth', 'role:admin,teacher,fitncae'])->group(function () {
+    Route::get("/teacher/inheritance", function () {
+        return view("teacher-inheritance");
+    });
 
-Route::get("/student/inheritance", function () {
-    return view("student-inheritance");
+    Route::get("/student/inheritance", function () {
+        return view("student-inheritance");
+    });
 });
 
 // Route Template Component
@@ -119,7 +121,7 @@ Route::get('/table', function () {
     return view('table');
 });
 
-//สัปดาห์ที่ 4 19/12/2564
+//สัปดาห์ที่4 19/12/2564
 Route::get("/myprofile/create", [MyProfileController::class, "create"]);
 Route::get("/myprofile/{id}/edit", [MyProfileController::class, "edit"]);
 Route::get("/myprofile/{id}", [MyProfileController::class, "show"]);
@@ -146,7 +148,15 @@ Route::delete('/covid19/{id}', [Covid19Controller::class, 'destroy']); //delete
 // Route::resource('post', 'PostController');
 Route::resource('post', PostController::class);
 
+//สัปดาห์ที่8 #สอบ 23/1/2565
 
+// สัปดาห์ที่9 30/1/2565
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+require __DIR__ . '/auth.php';
+
+//สัปดาห์ที่10 6/2/2565
 
 //สัปดาห์ที่11 13/2/2565
 Route::resource('product', ProductController::class);
@@ -155,4 +165,3 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('payment', PaymentController::class);
     Route::resource('order-product', OrderProductController::class);
 });
-
