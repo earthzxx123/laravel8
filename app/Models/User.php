@@ -44,17 +44,22 @@ class User extends Authenticatable
     ];
 
     //สัปดาห์ที่ 11
-    public function orders(){      
-        return $this->hasMany(Order::class, 'user_id', 'id'); 
-    }    
-
-    public function order_products(){
-        return $this->hasMany(OrderProduct::class, 'user_id', 'id'); 
-    }   
-
-    public function payments(){
-        return $this->hasMany(Payment::class, 'user_id', 'id'); 
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id');
     }
 
+    public function order_products()
+    {
+        return $this->hasMany(OrderProduct::class, 'user_id', 'id');
+    }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class, 'user_id', 'id');
+    }
+    public function vehicles()
+    {
+        return $this->hasMany(vehicles::class, 'user_id', 'id');
+    }
 }

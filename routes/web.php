@@ -10,6 +10,10 @@ use App\Http\Controllers\OrderController; //สัปดาห์ที่ 11
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\OrderProductController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController; //สัปดาห์ที่ 10
+use App\Http\Controllers\UserController; //สัปดาห์ที่ 10
+use App\Http\Controllers\VehicleController; //สัปดาห์ที่ 10
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -157,6 +161,12 @@ Route::get('/dashboard', function () {
 require __DIR__ . '/auth.php';
 
 //สัปดาห์ที่10 6/2/2565
+//Route::resource('Profile', 'ProfileController'); แบบเก่า
+// Route::resource('user', 'UserController'); 
+// Route::resource('vehicle', 'VehicleController');
+Route::resource('profile', ProfileController::class);
+Route::resource('user', UserController::class);
+Route::resource('vehicle', VehicleController::class);
 
 //สัปดาห์ที่11 13/2/2565
 Route::resource('product', ProductController::class);
