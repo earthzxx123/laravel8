@@ -1,4 +1,3 @@
-
 <x-bootstrap-theme>
 
     <div class="container">
@@ -13,11 +12,11 @@
                         <br />
 
                         @if ($errors->any())
-                            <ul class="alert alert-danger">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
+                        <ul class="alert alert-danger">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                         @endif
 
                         <form method="POST" action="{{ url('/order/' . $order->id) }}" accept-charset="UTF-8" class="form-horizontal" enctype="multipart/form-data">

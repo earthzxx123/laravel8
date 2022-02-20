@@ -15,24 +15,77 @@
                         <form method="POST" action="{{ url('order' . '/' . $order->id) }}" accept-charset="UTF-8" style="display:inline">
                             {{ method_field('DELETE') }}
                             {{ csrf_field() }}
-                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Order" onclick="return confirm('Confirm delete?';)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                            <button type="submit" class="btn btn-danger btn-sm" title="Delete Order" onclick="return confirm('Confirm delete?')"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
                         </form>
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
 
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <th>ID</th><td>{{ $order->id }}</td>
+                                        <th>ID</th>
+                                        <td>{{ $order->id }}</td>
                                     </tr>
-                                    <tr><th> User Id </th><td> {{ $order->user_id }} </td></tr><tr><th> Remark </th><td> {{ $order->remark }} </td></tr><tr><th> Total </th><td> {{ $order->total }} </td></tr><tr><th> Status </th><td> {{ $order->status }} </td></tr><tr><th> Checking At </th><td> {{ $order->checking_at }} </td></tr><tr><th> Paid At </th><td> {{ $order->paid_at }} </td></tr><tr><th> Cancelled At </th><td> {{ $order->cancelled_at }} </td></tr><tr><th> Completed At </th><td> {{ $order->completed_at }} </td></tr><tr><th> Tracking </th><td> {{ $order->tracking }} </td></tr>
+                                    <tr>
+                                        <th> User Id </th>
+                                        <td> {{ $order->user_id }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Remark </th>
+                                        <td> {{ $order->remark }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Total </th>
+                                        <td> {{ $order->total }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Status </th>
+                                        <td> {{ $order->status }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Checking At </th>
+                                        <td> {{ $order->checking_at }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Paid At </th>
+                                        <td> {{ $order->paid_at }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Cancelled At </th>
+                                        <td> {{ $order->cancelled_at }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Completed At </th>
+                                        <td> {{ $order->completed_at }} </td>
+                                    </tr>
+                                    <tr>
+                                        <th> Tracking </th>
+                                        <td> {{ $order->tracking }} </td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
 
                     </div>
                 </div>
+                <!-- สัปดาห์ที่ 12 -->
+                @php
+                $orderproduct = $order->order_products;
+                @endphp
+
+                <div class="card mt-4">
+                    <div class="card-header">รายละเอียด Order {{ $order->id }}</div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

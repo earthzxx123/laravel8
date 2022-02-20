@@ -22,6 +22,13 @@ class OrderProductController extends Controller
         $keyword = $request->get('search');
         $perPage = 25;
 
+        //สัปดาห์ที่ 11
+        //Query ข้อมูลตะกร้าสินค้าโดยเอาเฉพาะที่ order_id = Null และ user_id ตรงกับเรา
+        $orderproduct = OrderProduct::whereNull('order_id')
+        ->where('user_id', Auth::id() )
+        ->latest()->paginate($perPage);
+        //////////////////////////
+        
         if (!empty($keyword)) {
             $orderproduct = OrderProduct::where('order_id', 'LIKE', "%$keyword%")
                 ->orWhere('product_id', 'LIKE', "%$keyword%")

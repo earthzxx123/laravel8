@@ -44,10 +44,7 @@
                                         <td> {{ $product->cost }} </td>
                                     </tr>
                                     <!-- <tr><th> Photo </th><td> {{ $product->photo }} </td></tr> -->
-                                    <tr>
-                                        <th> Photo </th>
-                                        <td> <img src="{{ url('storage/'.$product->photo )}}" width="100" /></td>
-                                    </tr>
+                                    <tr><th> Photo </th><td> <img src="{{ url('storage/'.$product->photo )}}" width="100" /></td> </tr>
                                     <tr>
                                         <th> Quantity </th>
                                         <td> {{ $product->quantity }} </td>
@@ -63,7 +60,7 @@
                             <input class="d-none" name="order_id" type="number" id="order_id" value="">
                             <input class="d-none" name="product_id" type="number" id="product_id" value="{{ $product->id }}">
                             <input class="d-none" name="user_id" type="number" id="user_id" value="">
-                            <input class="" name="quantity" type="number" id="quantity" value="1"  min="0"  required  />  
+                            <input class="" name="quantity" type="number" id="quantity" value="1" min="0" required />
                             <input class="d-none" name="price" type="number" id="price" value="{{ $product->price }}">
                             <input class="d-none" name="total" type="number" id="total" value="">
 

@@ -8,6 +8,10 @@ use App\Http\Requests;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
+use Illuminate\Support\Facades\Auth;   // สัปดาห์ที่ 12
+use App\Models\OrderProduct;
+use App\Models\Product;
+
 class OrderController extends Controller
 {
     /**
@@ -19,7 +23,17 @@ class OrderController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = 25;
+        // สัปดาห์ที่ 12
+        switch (Auth::user()->role) {
+            case "admin":
+                $order = Order::latest()->paginate($perPage);
+                break;
+            default:
+                //means guest
+                $order = Order::where('user_id', Auth::id())->latest()->paginate($perPage);
+        }
 
+        // 
         if (!empty($keyword)) {
             $order = Order::where('user_id', 'LIKE', "%$keyword%")
                 ->orWhere('remark', 'LIKE', "%$keyword%")
@@ -57,10 +71,33 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         $requestData = $request->all();
-        
-        Order::create($requestData);
+        //รวมราคาสินค้าในตะกร้า
+        $total = OrderProduct::whereNull('order_id')
+            ->where('user_id', Auth::id())->sum('total');
+        //กำหนดราคารวม, ผู้ใช้, สถานะ
+        $requestData['total'] = $total;
+        $requestData['user_id'] = Auth::id();
+        $requestData['status'] = "created";
+        //CREATE ORDER      
+        $order = Order::create($requestData);
+        //UPDATE ORDER ID ในตาราง order_product สำหรับคอลัมน์ที่ order_id เป็น null
+        OrderProduct::whereNull('order_id')
+            ->where('user_id', Auth::id())->update(['order_id' => $order->id]);
+        //ปรับลดสินค้าในสต๊อก
+        $order_products = $order->order_products;
+        foreach ($order_products as $item) {
+            Product::where('id', $item->product_id)->decrement('quantity', $item->quantity);
+        }
+
+        Product::where('id', $item->product_id)->decrement('quantity', $item->quantity); //ทั้งสองอันได้ผลลัพธ์เดียวกัน
+        // Product::decrement('quantity', $item->quantity,['id' => $item->product_id]);
+
+
+
+
+        // Order::create($requestData);   ไม่ใช้
 
         return redirect('order')->with('flash_message', 'Order added!');
     }
@@ -103,9 +140,9 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $order = Order::findOrFail($id);
         $order->update($requestData);
 

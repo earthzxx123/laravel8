@@ -8,6 +8,7 @@ use App\Http\Requests;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
+use App\Models\Order;   //  สัปดาห์ที่ 11
 class PaymentController extends Controller
 {
     /**
@@ -38,9 +39,13 @@ class PaymentController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('payment.create');
+        //อ่านค่า order_id จาก url  //สัปดาห์ที่ 12
+        $order_id  = $request->get('order_id');
+        //query order จาก db ด้วย order_id ถ้าไม่มี order แสดง Not found
+        $order = Order::findOrFail($order_id);
+        return view('payment.create' , compact('order') );
     }
 
     /**
@@ -60,6 +65,12 @@ class PaymentController extends Controller
         }
 
         Payment::create($requestData);
+        //update order status เป็น checking //สัปดาห์ที่ 12
+        Order::where('id',$requestData['order_id'])
+            ->update([
+                'status'=>'checking',
+                'checking_at'=>date("Y-m-d H:i:s"), //timestamp ปัจจุบัน
+            ]);
 
         return redirect('payment')->with('flash_message', 'Payment added!');
     }
