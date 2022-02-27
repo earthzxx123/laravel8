@@ -168,10 +168,24 @@ Route::resource('profile', ProfileController::class);
 Route::resource('user', UserController::class);
 Route::resource('vehicle', VehicleController::class);
 
+// สัปดาห์ที่ 13
+// Route::get('/example/pdf', 'ExampleController@pdf_index');
+Route::get('/product/pdf', [ ProductController::class , 'pdf_index' ] );
+
 //สัปดาห์ที่11 13/2/2565
 Route::resource('product', ProductController::class);
-Route::middleware(['auth'])->group(function () {
+
+//สัปดาห์ที่ 13
+Route::middleware(['role:admin'])->group(function () {    //ONLY ADMIN CAN ACCESS
+    //SPECIFIC ROUTES
+      Route::get('order-product/reportdaily', [OrderProductController::class,'reportdaily']);
+      Route::get('order-product/reportmonthly', [OrderProductController::class,'reportmonthly']);
+      Route::get('order-product/reportyearly', [OrderProductController::class,'reportyearly']);
+  });
+
+//ของสัปดาห์ที่ 11
+    Route::resource('order-product', OrderProductController::class);
     Route::resource('order', OrderController::class);
     Route::resource('payment', PaymentController::class);
-    Route::resource('order-product', OrderProductController::class);
-});
+
+

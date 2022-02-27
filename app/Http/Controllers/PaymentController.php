@@ -8,7 +8,7 @@ use App\Http\Requests;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
-use App\Models\Order;   //  สัปดาห์ที่ 11
+use App\Models\Order;   //  สัปดาห์ที่ 12
 class PaymentController extends Controller
 {
     /**

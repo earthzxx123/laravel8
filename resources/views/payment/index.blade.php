@@ -41,10 +41,8 @@
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $item->total }}</td>
-                                        <!-- <td>{{ $item->user_id }}</td> -->
-                                        <td>{{ $item->user->name }}</td>
-                                        <td>{{ $item->order_id }}</td>
-                                        <!-- <td>{{ $item->slip }}</td> -->
+                                        <td>{{ $item->user->name }}</td>  <!-- สัปดาห์ที่ 12 -->
+                                        <td>{{ $item->order_id }}</td>  <!-- สัปดาห์ที่ 12 -->  
                                         <td><img src="{{ url('storage/'.$item->slip )}}" width="100" /></td>  <!-- สัปดาห์ที่ 12 -->
 
                                         <td>

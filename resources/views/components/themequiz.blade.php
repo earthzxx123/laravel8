@@ -48,7 +48,8 @@
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <li class="nav-item">     <!-- สัปดาห์ที่111 -->
+            <li class="nav-item">
+                <!-- สัปดาห์ที่111 -->
                 <a class="nav-link" href="{{ url('/product') }}">
                     <i class="fa fa-home"></i> หน้าหลัก
                 </a>
@@ -63,6 +64,28 @@
                     <i class="fa fa-box"></i> คำสั่งซื้อของฉัน
                 </a>
             </li>
+            
+            <!-- สัปดาห์ที่ 13 -->
+            @if(Auth::check())
+            @if(Auth::user()->role == "admin")
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" href="{{ url('/order-product/reportdaily') }}">
+                    <i class="fa fa-file"></i> รายงานรายวัน
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" href="{{ url('/order-product/reportmonthly') }}">
+                    <i class="fa fa-file"></i> รายงานรายเดือน
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" href="{{ url('/order-product/reportyearly') }}">
+                    <i class="fa fa-file"></i> รายงานรายปี
+                </a>
+            </li>
+            @endif
+            @endif
+            <!--  -->
 
             <!-- Divider -->
             <hr class="sidebar-divider">

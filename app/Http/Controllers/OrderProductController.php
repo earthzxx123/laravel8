@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;  //สัปดาห์ที่ 11
 
+use Illuminate\Support\Facades\DB; //สัปดาห์ที่ 13
 class OrderProductController extends Controller
 {
     /**
@@ -25,10 +26,10 @@ class OrderProductController extends Controller
         //สัปดาห์ที่ 11
         //Query ข้อมูลตะกร้าสินค้าโดยเอาเฉพาะที่ order_id = Null และ user_id ตรงกับเรา
         $orderproduct = OrderProduct::whereNull('order_id')
-        ->where('user_id', Auth::id() )
-        ->latest()->paginate($perPage);
+            ->where('user_id', Auth::id())
+            ->latest()->paginate($perPage);
         //////////////////////////
-        
+
         if (!empty($keyword)) {
             $orderproduct = OrderProduct::where('order_id', 'LIKE', "%$keyword%")
                 ->orWhere('product_id', 'LIKE', "%$keyword%")
@@ -71,7 +72,7 @@ class OrderProductController extends Controller
         $requestData['user_id'] = Auth::id();
         //สร้างข้อมูล
 
-        
+
         OrderProduct::create($requestData);
 
         return redirect('order-product')->with('flash_message', 'OrderProduct added!');
@@ -115,9 +116,9 @@ class OrderProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
+
         $requestData = $request->all();
-        
+
         $orderproduct = OrderProduct::findOrFail($id);
         $orderproduct->update($requestData);
 
@@ -136,5 +137,45 @@ class OrderProductController extends Controller
         OrderProduct::destroy($id);
 
         return redirect('order-product')->with('flash_message', 'OrderProduct deleted!');
+    }
+
+    //สัปดาห์ที่ 13
+    public function reportdaily(Request $request)
+    {
+        $date = $request->get('date');
+        //SELECT order_products.*, orders.completed_at FROM `order_products` INNER JOIN orders ON order_products.order_id = orders.id WHERE DATE(orders.completed_at) = $date AND WHERE orders.status = 'completed'
+        $orderproduct = OrderProduct::join('orders', 'order_products.order_id', '=', 'orders.id')
+            ->select(DB::raw('order_products.*, orders.completed_at'))
+            ->whereDate('orders.completed_at', $date)
+            //->where('orders.status','completed')
+            ->get();
+        return view('order-product.report-daily', compact('orderproduct'));
+    }
+
+    public function reportmonthly(Request $request)
+    {
+        $month = $request->get('month');
+        $year = $request->get('year');
+        //SELECT order_products.*, orders.completed_at FROM `order_products` INNER JOIN orders ON order_products.order_id = orders.id WHERE MONTH(orders.completed_at) = $month AND WHERE YEAR(orders.completed_at) = $year AND WHERE orders.status = 'completed'
+        $orderproduct = OrderProduct::join('orders', 'order_products.order_id', '=', 'orders.id')
+            ->select(DB::raw('order_products.*, orders.completed_at'))
+            ->whereMonth('orders.completed_at', $month)
+            ->whereYear('orders.completed_at', $year)
+            //->where('orders.status','completed')
+            ->get();
+        return view('order-product.report-monthly', compact('orderproduct'));
+    }
+
+    public function reportyearly(Request $request)
+    {
+        $year = $request->get('year');
+        //SELECT order_products.*, orders.completed_at FROM `order_products` INNER JOIN orders ON order_products.order_id = orders.id WHERE YEAR(orders.completed_at) = $year AND WHERE orders.status = 'completed'
+        $orderproduct = OrderProduct::join('orders', 'order_products.order_id', '=', 'orders.id')
+            ->select(DB::raw('order_products.*, orders.completed_at, AVG(order_products.price) as avg_price, SUM(order_products.quantity) as sum_quantity, SUM(order_products.total) as sum_total'))
+            ->whereYear('orders.completed_at', $year)
+            ->where('orders.status', 'completed')
+            ->groupByRaw('product_id')
+            ->get();
+        return view('order-product.report-yearly', compact('orderproduct'));
     }
 }

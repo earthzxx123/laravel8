@@ -14,8 +14,8 @@
     {!! $errors->first('order_id', '<p class="help-block">:message</p>') !!}
 </div>
 <div class="form-group {{ $errors->has('slip') ? 'has-error' : ''}}">
-    <label for="slip" class="control-label">{{ 'Slip' }} request('order_id') </label>
-    <input class="form-control" name="slip" type="file" id="slip" value="{{ isset($payment->slip) ? $payment->slip : ''}}" required >
+    <label for="slip" class="control-label">{{ 'Slip' }} <span class="text-danger">*</span></label>
+    <input class="form-control" name="slip" type="file" id="slip" value="{{ isset($payment->slip) ? $payment->slip : ''}}" required>
     {!! $errors->first('slip', '<p class="help-block">:message</p>') !!}
 </div>
 

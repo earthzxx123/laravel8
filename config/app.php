@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        // สัปดาห์ที่ 13
+        Barryvdh\DomPDF\ServiceProvider::class,
+
     ],
 
     /*
@@ -235,7 +238,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
 
-
+        // สัปดาห์ที่ 13    
+        'PDF' => Barryvdh\DomPDF\Facade::class,
 
     ],
 

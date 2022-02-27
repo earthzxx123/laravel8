@@ -8,6 +8,9 @@ use App\Http\Requests;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
+// สัปดาห์ที่ 13
+use PDF;
+
 class ProductController extends Controller
 {
     /**
@@ -130,4 +133,13 @@ class ProductController extends Controller
 
         return redirect('product')->with('flash_message', 'Product deleted!');
     }
+
+    // สัปดาห์ที่ 13
+    public function pdf_index() {
+        $data = ["a" => "...", "b" => "..."  ];
+        $pdf = PDF::loadView('test_pdf',$data);
+        return $pdf->stream('test.pdf'); //แบบนี้จะ stream มา preview
+        //return $pdf->download('test.pdf'); //แบบนี้จะดาวโหลดเลย
+   }
+   
 }

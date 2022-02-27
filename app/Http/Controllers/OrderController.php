@@ -11,7 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;   // สัปดาห์ที่ 12
 use App\Models\OrderProduct;
 use App\Models\Product;
-
 class OrderController extends Controller
 {
     /**
@@ -23,6 +22,7 @@ class OrderController extends Controller
     {
         $keyword = $request->get('search');
         $perPage = 25;
+
         // สัปดาห์ที่ 12
         switch (Auth::user()->role) {
             case "admin":
@@ -32,22 +32,22 @@ class OrderController extends Controller
                 //means guest
                 $order = Order::where('user_id', Auth::id())->latest()->paginate($perPage);
         }
+        /////////////////////////
 
-        // 
-        if (!empty($keyword)) {
-            $order = Order::where('user_id', 'LIKE', "%$keyword%")
-                ->orWhere('remark', 'LIKE', "%$keyword%")
-                ->orWhere('total', 'LIKE', "%$keyword%")
-                ->orWhere('status', 'LIKE', "%$keyword%")
-                ->orWhere('checking_at', 'LIKE', "%$keyword%")
-                ->orWhere('paid_at', 'LIKE', "%$keyword%")
-                ->orWhere('cancelled_at', 'LIKE', "%$keyword%")
-                ->orWhere('completed_at', 'LIKE', "%$keyword%")
-                ->orWhere('tracking', 'LIKE', "%$keyword%")
-                ->latest()->paginate($perPage);
-        } else {
-            $order = Order::latest()->paginate($perPage);
-        }
+        // if (!empty($keyword)) {
+        //     $order = Order::where('user_id', 'LIKE', "%$keyword%")
+        //         ->orWhere('remark', 'LIKE', "%$keyword%")
+        //         ->orWhere('total', 'LIKE', "%$keyword%")
+        //         ->orWhere('status', 'LIKE', "%$keyword%")
+        //         ->orWhere('checking_at', 'LIKE', "%$keyword%")
+        //         ->orWhere('paid_at', 'LIKE', "%$keyword%")
+        //         ->orWhere('cancelled_at', 'LIKE', "%$keyword%")
+        //             ->orWhere('completed_at', 'LIKE', "%$keyword%")
+        //         ->orWhere('tracking', 'LIKE', "%$keyword%")
+        //         ->latest()->paginate($perPage);
+        // } else {
+        //     $order = Order::latest()->paginate($perPage);
+        // }
 
         return view('order.index', compact('order'));
     }
@@ -144,6 +144,14 @@ class OrderController extends Controller
         $requestData = $request->all();
 
         $order = Order::findOrFail($id);
+        switch ($requestData['status']) {
+            case "paid":
+                $requestData['paid_at'] = date("Y-m-d H:i:s");
+                break;
+            case "completed":
+                $requestData['completed_at'] = date("Y-m-d H:i:s");
+                break;
+        }
         $order->update($requestData);
 
         return redirect('order')->with('flash_message', 'Order updated!');
@@ -162,4 +170,7 @@ class OrderController extends Controller
 
         return redirect('order')->with('flash_message', 'Order deleted!');
     }
+
+    
+
 }
